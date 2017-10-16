@@ -3,6 +3,7 @@
 include "_debut.inc.php";
 
 echo " 
+<TITLE> Accueil </title>
 <br> 
 <table width='80%' cellspacing='0' cellpadding='0' align='center'>
    <tr>  

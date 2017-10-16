@@ -36,6 +36,7 @@ if ($_REQUEST['action']=='demanderSupprEtab')
    {
       $nom=$lgEtab['nom'];
    echo "
+   <TITLE> Accueil > Gestion des établissements > Supprimer </TITLE>
    <br><center><h5>Souhaitez-vous vraiment supprimer l'établissement $nom ? 
    <br><br>
    <a href='suppressionEtablissement.php?action=validerSupprEtab&amp;id=$id'>

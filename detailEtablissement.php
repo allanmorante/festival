@@ -68,6 +68,7 @@ else
 }
 
 echo "
+<TITLE> Accueil > Gestion des établissements > Voir détail </title>
 <table width='60%' cellspacing='0' cellpadding='0' align='center' 
 class='tabNonQuadrille'>
    

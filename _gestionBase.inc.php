@@ -5,7 +5,7 @@
 function connect()
 {
   try{
-   $connexion = new PDO('mysql:host=localhost;dbname=festival','root','');
+   $connexion = new PDO('mysql:host=localhost;dbname=festivalsport','root','');
    return $connexion;
  }
  catch(Exception $e){
@@ -15,7 +15,7 @@ function connect()
 
 function selectBase($connexion)
 {
-   $bd="festival";
+   $bd="festivalsport";
    $query="SET CHARACTER SET utf8";
    // Modification du jeu de caractères de la connexion
    $res=$connexion->query("SELECT * FROM Etablissement ORDER BY id ASC");
@@ -175,11 +175,11 @@ function obtenirReqIdNomGroupesAHeberger()
 function obtenirNomGroupe($connexion, $id)
 {
 
-   $lgGroupe=$connexion->query("SELECT nom FROM Groupe where id='$id'");
+   $lgGroupe=$connexion->query("SELECT nom, nomPays FROM Groupe where id='$id'");
    return $lgGroupe->fetch();
    return $lgGroupe["nom"];
+   return $lgGroupe["nomPays"];
 }
-
 
 // FONCTIONS RELATIVES AUX ATTRIBUTIONS
 
@@ -202,33 +202,27 @@ function obtenirNbOccup($connexion, $idEtab)
 // l'id étab et à l'id groupe transmis
 function modifierAttribChamb($connexion, $idEtab, $idGroupe, $nbChambres)
 {
-   //$req="select count(*) as nombreAttribGroupe from Attribution where idEtab=
-        //'$idEtab' and idGroupe='$idGroupe'";
-   $rsAttrib=$connexion->query("SELECT count(*) as nombreAttribGroupe from Attribution where idEtab=
-        '$idEtab' and idGroupe='$idGroupe'");
-   //$lgAttrib=mysql_fetch_array($rsAttrib);
+   $req="select count(*) as nombreAttribGroupe from Attribution where idEtab=
+        '$idEtab' and idGroupe='$idGroupe'";
+   $rsAttrib=$connexion->query($req);
+   $lgAttrib=$rsAttrib->fetch();
    if ($nbChambres==0)
-      $rsAttrib=$connexion->query("SELECT count(*) as nombreAttribGroupe from Attribution where idEtab=
-        '$idEtab' and idGroupe='$idGroupe'");
-      //$req="delete from Attribution where idEtab='$idEtab' and idGroupe='$idGroupe'";
+      $req="delete from Attribution where idEtab='$idEtab' and idGroupe='$idGroupe'";
    else
    {
       if ($lgAttrib["nombreAttribGroupe"]!=0)
-         $rsAttrib=$connexion->query("UPDATE Attribution set nombreChambres=$nbChambres where idEtab=
-              '$idEtab' and idGroupe='$idGroupe'");
-         //$req="update Attribution set nombreChambres=$nbChambres where idEtab=
-              //'$idEtab' and idGroupe='$idGroupe'";
+         $req="update Attribution set nombreChambres=$nbChambres where idEtab=
+              '$idEtab' and idGroupe='$idGroupe'";
       else
-         $rsAttrib=$connexion->query("INSERT into Attribution values('$idEtab','$idGroupe', $nbChambres)");
-         //$req="insert into Attribution values('$idEtab','$idGroupe', $nbChambres)";
+         $req="insert into Attribution values('$idEtab','$idGroupe', $nbChambres)";
    }
+   $connexion->query($req);
 }
-
 // Retourne la requête permettant d'obtenir les id et noms des groupes affectés
 // dans l'établissement transmis
 function obtenirReqGroupesEtab($id)
 {
-   $req="SELECT distinct id, nom from Groupe, Attribution where 
+   $req="SELECT distinct id, nom, nomPays from Groupe, Attribution where 
         Attribution.idGroupe=Groupe.id and idEtab='$id'";
    return $req;
 }
@@ -244,5 +238,11 @@ function obtenirNbOccupGroupe($connexion, $idEtab, $idGroupe)
    else
       return 0;
 }
+
+/* function obtenirPays($idEtab)
+{
+             $pays="SELECT nomPays FROM groupe WHERE id = '$idEtab' ";
+   return $pays;
+} */
 
 ?>

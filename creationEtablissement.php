@@ -70,6 +70,7 @@ else
 }
 
 echo "
+<TITLE> Accueil > Gestion des établissements > Création d'un établissement </title>
 <form method='POST' action='creationEtablissement.php?'>
    <input type='hidden' value='validerCreEtab' name='action'>
    <table width='85%' align='center' cellspacing='0' cellpadding='0' 

@@ -51,6 +51,7 @@ if ($action=='validerModifAttrib')
 }
 
 echo "
+<TITLE> Accueil > Attribution des chambres > Effectuer ou modifier des attributions </title>
 <table width='80%' cellspacing='0' cellpadding='0' align='center' 
 class='tabQuadrille'>";
 
@@ -91,7 +92,7 @@ class='tabQuadrille'>";
    // CORPS DU TABLEAU : CONSTITUTION D'UNE LIGNE PAR GROUPE À HÉBERGER AVEC LES 
    // CHAMBRES ATTRIBUÉES ET LES LIENS POUR EFFECTUER OU MODIFIER LES ATTRIBUTIONS
          
-   $rsGroupe=$connexion->query("SELECT id, nom from Groupe where hebergement='O' order by id");
+   $rsGroupe=$connexion->query("SELECT id, nom, nomPays from Groupe where hebergement='O' order by id");
    $lgGroupe=$rsGroupe->fetch(PDO::FETCH_ASSOC);
   
          
@@ -100,9 +101,10 @@ class='tabQuadrille'>";
    {
       $idGroupe=$lgGroupe['id'];
       $nom=$lgGroupe['nom'];
+      $nomPays=$lgGroupe['nomPays'];
       echo "
       <tr class='ligneTabQuad'>
-         <td width='25%'>$nom</td>";
+         <td width='25%'>$nom - $nomPays</td>";
         $rsEtab=$connexion->query("SELECT id, nom, nombreChambresOffertes from Etablissement where nombreChambresOffertes!=0 order by id");
    $lgEtab=$rsEtab->fetch(PDO::FETCH_ASSOC);
            

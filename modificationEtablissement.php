@@ -74,6 +74,7 @@ else
 }
 
 echo "
+<TITLE> Accueil > Gestion des établissements > Modifier </title>
 <form method='POST' action='modificationEtablissement.php?'>
    <input type='hidden' value='validerModifEtab' name='action'>
    <table width='85%' cellspacing='0' cellpadding='0' align='center' 

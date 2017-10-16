@@ -1,5 +1,13 @@
 <?php
 
+
+
+/*          $pays=$connexion->query("SELECT nomPays FROM groupe WHERE id = '$idEtab' ");
+   return $pays->fetch(); */ 
+
+
+
+
 include("_debut.inc.php");
 include("_gestionBase.inc.php"); 
 include("_controlesEtGestionErreurs.inc.php");
@@ -28,6 +36,7 @@ $nbEtab=obtenirNbEtabOffrantChambres($connexion);
 if ($nbEtab!=0)
 {
    echo "
+   <title> Accueil > Attribution des chambres </title>
    <table width='75%' cellspacing='0' cellpadding='0' align='center'
    <tr><td>
    <a href='modificationAttributions.php?action=demanderModifAttrib'>
@@ -50,6 +59,7 @@ if ($nbEtab!=0)
       class='tabQuadrille'>";
       
       $nbOffre=$lgEtab["nombreChambresOffertes"];
+      $nbChambres=$lgEtab["nombreChambresOffertes"];
       $nbOccup=obtenirNbOccup($connexion, $idEtab);
       $nbOccup1=$nbOccup->fetchColumn();
       // Calcul du nombre de chambres libres dans l'établissement
@@ -83,21 +93,32 @@ if ($nbEtab!=0)
       {
          $idGroupe=$lgGroupe['id'];
          $nomGroupe=$lgGroupe['nom'];
+         $nomPays=$lgGroupe['nomPays'];
+        
          echo "
          <tr class='ligneTabQuad'>
-            <td width='65%' align='left'>$nomGroupe</td>";
+            <td width='65%' align='left'>$nomGroupe - $nomPays</td>";
          // On recherche si des chambres ont déjà été attribuées à ce groupe
          // dans l'établissement
          $nbOccupGroupe=obtenirNbOccupGroupe($connexion, $idEtab, $idGroupe);
          echo "
-            <td width='35%' align='left'>$nbOccupGroupe</td>
-         </tr>";
+            <td width='35%' align='left'>$nbOccupGroupe <select name='nbChambres'>
+             ";
+   for ($i=0; $i<=$nbChLib; $i++)
+   {
+      echo "<option>$i</option>";
+   }
+        echo"</select></td></tr>";
          $lgGroupe=$rsGroupe->fetch(PDO::FETCH_ASSOC);;
       } // Fin de la boucle sur les groupes
-      
       echo "
-      </table><br>";
+      </table> <input type='submit' value='Valider' name='valider'> <br>";
       $lgEtab=$rsEtab->fetch(PDO::FETCH_ASSOC);
    } // Fin de la boucle sur les établissements
+   if (!isset(POST['valider']) && !empty(POST['valider']))
+   {
+      modifierAttribChamb($connexion, $idEtab, $idGroupe, $nbChambres);
+   }
 }
 ?>
+

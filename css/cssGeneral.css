@@ -125,6 +125,7 @@ tr.enTeteTabNonQuad td
    text-align:center;
    font-weight:bold;
    border-bottom:1px solid #777777;
+   border-left: 1px solid #777777 !important; /* sal */
 } 
 
 /* Style pour les lignes (autres que la 1ère ligne d'en-tête) des tableaux non 
@@ -164,4 +165,3 @@ td.reserve
    background-color:#FFBEFF;
    color:black;
 }
-
